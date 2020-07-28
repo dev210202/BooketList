@@ -1,5 +1,7 @@
 package org.first.booketlist;
 
+import com.google.gson.JsonElement;
+
 public class BookInfo {
     String title;
     String link;
@@ -7,8 +9,17 @@ public class BookInfo {
     String author;
     String publisher;
     String pubdate;
-    String isbn;
     String description;
+
+    public BookInfo(String title, String link, String image, String author, String publisher, String pubdate, String description) {
+        this.title = title;
+        this.link = link;
+        this.image = image;
+        this.author = author;
+        this.publisher = publisher;
+        this.pubdate = pubdate;
+        this.description = description;
+    }
 
     public String getTitle() {
         return title;
@@ -56,14 +67,6 @@ public class BookInfo {
 
     public void setPubdate(String pubdate) {
         this.pubdate = pubdate;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
     }
 
     public String getDescription() {
