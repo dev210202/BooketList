@@ -1,14 +1,9 @@
-package org.first.booketlist;
+package org.first.booketlist.viewmodel;
 
-import android.content.res.Resources;
-import android.os.Build;
 import android.util.Log;
-import android.view.View;
 
-import androidx.annotation.RequiresApi;
+import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableField;
-import androidx.databinding.ObservableList;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -16,45 +11,43 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.first.booketlist.model.BookInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class SearchViewModel extends ViewModel {
 
     ObservableField<String> editTextInput;
-    MutableLiveData<ArrayList<BookInfo>> bookData = new MutableLiveData<ArrayList<BookInfo>>();
-    ArrayList<BookInfo> bookList = new ArrayList<BookInfo>();
+    public ObservableArrayList<BookInfo> bookData;
+    MutableLiveData<String> toastMessage = new MutableLiveData<String>();
     String responseBody;
 
     public SearchViewModel() {
         this.editTextInput = new ObservableField<String>("text");
+        this.bookData = new ObservableArrayList<BookInfo>();
     }
 
     public ObservableField<String> getEditTextInput() {
         return editTextInput;
+    }
+
+    public ObservableArrayList<BookInfo> getBookData() {
+        return bookData;
     }
 
     public void searchData() {
@@ -71,7 +64,6 @@ public class SearchViewModel extends ViewModel {
 
             @Override
             public void onSubscribe(Disposable d) {
-
             }
 
             @Override
@@ -91,78 +83,18 @@ public class SearchViewModel extends ViewModel {
     }
 
     private void getData() {
-
-        String clientId = "OAVpqgXpExdFQglBCJFc";
-        String clientSecret = "KTRwVjuTXS";
-
-        String text = editTextInput.get().toString();
-        Log.e("text", text);
-        try {
-            text = URLEncoder.encode(text, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("검색어 인코딩 실패", e);
+        bookData.clear();
+        JsonArray dataArray = getDataFromNaverAPI();
+        if(dataArray.size() == 0){
+            toastMessage.postValue("검색된 책이 없습니다.");
         }
-        String apiURL = "https://openapi.naver.com/v1/search/book?query=" + text + "&display=10";
-
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-        responseBody = get(apiURL, requestHeaders);
-
-        JsonParser parser = new JsonParser();
-        try {
-            Object obj = parser.parse(responseBody.toString());
-            JsonObject jsonObject = (JsonObject) obj;
-            JsonArray getArray = (JsonArray) jsonObject.get("items");
-            for (int i = 0; i < getArray.size(); i++) {
-                JsonObject object = (JsonObject) getArray.get(i);
-
-                String filter1 = object.get("title").toString().replaceAll("\"", "");
-                String filter2 = filter1.replaceAll("<b>", "");
-                String title = filter2.replaceAll("</b>", "");
-
-                filter1 = object.get("image").toString().replaceAll("\"", "");
-                String image = filter1;
-
-                filter1 = object.get("author").toString().replaceAll("\"", "");
-                String author = filter1;
-
-                filter1 = object.get("publisher").toString().replaceAll("\"", "");
-                String publisher = filter1;
-
-                filter1 = object.get("pubdate").toString().replaceAll("\"", "");
-                String pubdate = filter1;
-
-                    filter1 = object.get("description").toString().replaceAll("\"", "");
-                    filter2 = filter1.replaceAll("<b>", "");
-                    String description = filter2.replaceAll("</b>", "");
-                if(description.equals("")){
-                    description = "책 상세정보가 없습니다.";
-                }
-                BookInfo bookInfo = new BookInfo(
-                        title,
-                        object.get("link").toString(),
-                        image,
-                        author,
-                        publisher,
-                        pubdate,
-                        description
-                );
-                Log.e("test1", title);
-                Log.e("test2", bookInfo.link);
-                Log.e("test3", bookInfo.image);
-                Log.e("test4", bookInfo.author);
-                Log.e("test5", bookInfo.publisher);
-                Log.e("test6", bookInfo.pubdate);
-                Log.e("test7", description);
-                bookList.add(bookInfo);
-
+        else{
+            try {
+                filteringData(dataArray);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            bookData.postValue(bookList);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
     }
 
     private static String get(String apiUrl, Map<String, String> requestHeaders) {
@@ -211,6 +143,76 @@ public class SearchViewModel extends ViewModel {
             return responseBody.toString();
         } catch (IOException e) {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
+        }
+    }
+    private JsonArray getDataFromNaverAPI(){
+        String clientId = "OAVpqgXpExdFQglBCJFc";
+        String clientSecret = "KTRwVjuTXS";
+
+        String text = editTextInput.get().toString();
+        Log.e("text", text);
+        try {
+            text = URLEncoder.encode(text, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("검색어 인코딩 실패", e);
+        }
+        String apiURL = "https://openapi.naver.com/v1/search/book?query=" + text + "&display=20";
+
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("X-Naver-Client-Id", clientId);
+        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+        responseBody = get(apiURL, requestHeaders);
+
+        Log.e("responseBody", responseBody.toString());
+        JsonParser parser = new JsonParser();
+        Object obj = parser.parse(responseBody.toString());
+        JsonObject jsonObject = (JsonObject) obj;
+        JsonArray getArray = (JsonArray) jsonObject.get("items");
+        return getArray;
+    }
+    private void filteringData(JsonArray dataArray){
+        for (int i = 0; i < dataArray.size(); i++) {
+            JsonObject object = (JsonObject) dataArray.get(i);
+
+            String filter1 = object.get("title").toString().replaceAll("\"", "");
+            String filter2 = filter1.replaceAll("<b>", "");
+            String title = filter2.replaceAll("</b>", "");
+
+            filter1 = object.get("link").toString().replaceAll("\"","");
+            String link = filter1;
+
+            filter1 = object.get("image").toString().replaceAll("\"", "");
+            String image = filter1;
+
+            filter1 = object.get("author").toString().replaceAll("\"", "");
+            filter2 = filter1.replaceAll("<b>", "");
+            String author = filter2.replaceAll("</b>", "");
+
+            filter1 = object.get("publisher").toString().replaceAll("\"", "");
+            filter2 = filter1.replaceAll("<b>", "");
+            String publisher = filter2.replaceAll("</b>", "");
+
+            filter1 = object.get("pubdate").toString().replaceAll("\"", "");
+            filter2 = filter1.replaceAll("<b>", "");
+            String pubdate = filter2.replaceAll("</b>", "");
+
+            filter1 = object.get("description").toString().replaceAll("\"", "");
+            filter2 = filter1.replaceAll("<b>", "");
+            String description = filter2.replaceAll("</b>", "");
+            if (description.equals("")) {
+                description = "책 상세정보가 없습니다.";
+            }
+            BookInfo bookInfo = new BookInfo(
+                    title,
+                    link,
+                    image,
+                    author,
+                    publisher,
+                    pubdate,
+                    description
+            );
+            bookData.add(bookInfo);
+
         }
     }
 }

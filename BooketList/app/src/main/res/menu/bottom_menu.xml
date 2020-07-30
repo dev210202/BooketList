@@ -3,22 +3,14 @@
     <item
         android:id="@+id/home_navigation"
         android:icon="@drawable/ic_baseline_home_24"
-        android:title="home"></item>
+        android:title="홈"></item>
     <item
-        android:id="@+id/search_navigation"
+        android:id="@+id/add_search_navigation"
         android:icon="@drawable/ic_baseline_search_24"
-        android:title="search"></item>
-    <item
-        android:id="@+id/add_navigation"
-        android:icon="@drawable/ic_baseline_add_box_24"
-        android:title="add"></item>
+        android:title="검색 &amp; 추가"></item>
     <item
         android:id="@+id/user_navigation"
         android:icon="@drawable/ic_baseline_person_24"
-        android:title="user"></item>
-    <item
-        android:id="@+id/report_navigation"
-        android:icon="@drawable/ic_baseline_report_24"
-        android:title="report"></item>
+        android:title="유저"></item>
 
 </menu>

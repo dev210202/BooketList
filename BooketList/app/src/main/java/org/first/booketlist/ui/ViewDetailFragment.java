@@ -1,4 +1,4 @@
-package org.first.booketlist;
+package org.first.booketlist.ui;
 
 import android.os.Bundle;
 
@@ -10,31 +10,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-
+import org.first.booketlist.model.BookInfo;
+import org.first.booketlist.R;
 import org.first.booketlist.databinding.FragmentViewDetailBinding;
 
 
 public class ViewDetailFragment extends Fragment {
-    ObservableField<String> image;
-    String title;
-    String author;
-    String publisher;
-    String pubdate;
-    String description;
 
+    ObservableField<BookInfo> book = new ObservableField<BookInfo>();
     FragmentViewDetailBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_view_detail, container, false);
-        // setArguments();
 
-        Glide.with(this).load(image).into(binding.imageView);
-        binding.titleTextview.setText(title);
+        Bundle bundle = getArguments();
+        BookInfo asd = (BookInfo) bundle.getSerializable("bookInfo");
 
-        return inflater.inflate(R.layout.fragment_view_detail, container, false);
+        book.set(asd);
+        binding.setBook(book);
+//        // setArguments();
+//
+//        Glide.with(this).load(image).into(binding.imageView);
+//        binding.titleTextview.setText(title);
+        View view = binding.getRoot();
+        return view;
     }
 
 //    public void setArguments(){

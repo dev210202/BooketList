@@ -1,8 +1,10 @@
-package org.first.booketlist;
+package org.first.booketlist.model;
 
 import com.google.gson.JsonElement;
 
-public class BookInfo {
+import java.io.Serializable;
+
+public class BookInfo implements Serializable {
     String title;
     String link;
     String image;
@@ -20,6 +22,7 @@ public class BookInfo {
         this.pubdate = pubdate;
         this.description = description;
     }
+
 
     public String getTitle() {
         return title;

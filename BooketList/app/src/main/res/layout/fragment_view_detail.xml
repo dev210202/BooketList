@@ -1,57 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ViewDetailFragment">
+    xmlns:changeimage="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.ViewDetailFragment">
 
-    <data
-        >
+    <data>
+        <import type="androidx.databinding.ObservableField"></import>
+        <import type="org.first.booketlist.model.BookInfo"></import>
+
         <variable
-            name="view"
-            type="org.first.booketlist.ViewDetailFragment" />
+            name="book"
+            type="ObservableField&lt;BookInfo&gt;" />
     </data>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-<TextView
-    android:textStyle="bold"
-    android:layout_margin="10dp"
-    android:gravity="center"
-    android:textSize="30dp"
-    android:text="책 정보"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"></TextView>
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/backbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/ic_baseline_add_24"
+        changeimage:layout_constraintEnd_toStartOf="@+id/linkbutton"
+        changeimage:layout_constraintTop_toTopOf="parent"></ImageButton>
+
+    <ImageButton
+        linkopen="@{book.link}"
+        android:id="@+id/linkbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/ic_baseline_public_24"
+        changeimage:layout_constraintBottom_toBottomOf="parent"
+        changeimage:layout_constraintEnd_toEndOf="parent"
+        changeimage:layout_constraintTop_toTopOf="parent"></ImageButton>
+</androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
+                setimage="@{book.image}"
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/textpng"></ImageView>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
+                    android:text="@{book.title}"
                     android:id="@+id/title_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:singleLine="true"
-                    android:text="@{view.title}"></TextView>
+                    android:layout_marginRight="10dp"></TextView>
 
 
                 <TextView
@@ -59,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="저자"></TextView>
+                    android:text="@{book.author}"></TextView>
 
                 <TextView
                     android:id="@+id/publisher_textview"
@@ -67,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="출판사"></TextView>
+                    android:text="@{book.publisher}"></TextView>
 
                 <TextView
 
@@ -78,7 +100,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:singleLine="true"
-                    android:text="출판일"></TextView>
+                    android:text="@={book.pubdate}"></TextView>
 
             </LinearLayout>
         </LinearLayout>
@@ -88,8 +110,8 @@
             android:id="@+id/description_textview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:text="내용"></TextView>
+            android:layout_margin="10dp"
+            android:text="@{book.description}"></TextView>
     </LinearLayout>
 
 </layout>

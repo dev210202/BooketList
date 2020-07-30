@@ -2,14 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    tools:context=".SearchFragment">
+>
 
     <data>
-
+        <import type="androidx.databinding.ObservableArrayList"></import>
+        <import type="org.first.booketlist.model.BookInfo"></import>
         <variable
+            name="bookList"
+            type="ObservableArrayList&lt;BookInfo&gt;" />
+       <variable
             name="viewModel"
-            type="org.first.booketlist.SearchViewModel" />
+            type="org.first.booketlist.viewmodel.SearchViewModel" />
     </data>
 
     <LinearLayout
@@ -55,10 +58,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+
             android:id="@+id/recyclerview"
             android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            item="@{bookList}">
 
         </androidx.recyclerview.widget.RecyclerView>
 

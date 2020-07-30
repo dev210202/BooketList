@@ -1,90 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="#E8F3EF"
-    android:orientation="horizontal">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/textpng"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        <variable
+            name="book"
+            type="org.first.booketlist.model.BookInfo" />
+    </data>
 
     <LinearLayout
-        android:layout_margin="5dp"
+        viewdeatil="@{book}"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="#E8F3EF"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/title_textview"
-            android:layout_width="match_parent"
+
+        <ImageView
+            app:setimage="@{book.image}"
+            android:id="@+id/imageView"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:singleLine="true"
-            android:text="제목"></TextView>
+            android:background="@drawable/textpng"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:layout_margin="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/author_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="저자"></TextView>
-
-            <TextView
-                android:id="@+id/publisher_textview"
-                android:layout_width="wrap_content"
+                android:id="@+id/title_textview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:singleLine="true"
-                android:text="출판사"></TextView>
+                android:text="@{book.title}"></TextView>
 
-            <TextView
-                android:id="@+id/pubdate_textview"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:singleLine="true"
-                android:text="출판일"></TextView>
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/author_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{book.author}"></TextView>
+
+                <TextView
+                    android:id="@+id/publisher_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:singleLine="true"
+                    android:text="@{book.publisher}"></TextView>
+
+                <TextView
+                    android:id="@+id/pubdate_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:singleLine="true"
+                    android:text="@{book.pubdate}"></TextView>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/description_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{book.description}"></TextView>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/description_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="내용"></TextView>
     </LinearLayout>
-
-</LinearLayout>
+</layout>
