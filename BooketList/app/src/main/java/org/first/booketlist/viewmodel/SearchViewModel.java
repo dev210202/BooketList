@@ -40,7 +40,7 @@ public class SearchViewModel extends ViewModel {
     public SearchViewModel() {
         this.editTextInput = new ObservableField<String>("text");
         this.bookData = new ObservableArrayList<BookInfo>();
-    }
+}
 
     public ObservableField<String> getEditTextInput() {
         return editTextInput;

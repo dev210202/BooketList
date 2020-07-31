@@ -20,7 +20,7 @@
 
 
         <ImageView
-            app:setimage="@{book.image}"
+            setimage="@{book.image}"
             android:id="@+id/imageView"
             android:layout_margin="5dp"
             android:layout_width="wrap_content"

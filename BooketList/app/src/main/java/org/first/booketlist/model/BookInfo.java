@@ -1,16 +1,31 @@
 package org.first.booketlist.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.JsonElement;
 
 import java.io.Serializable;
 
+@Entity
 public class BookInfo implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    public int uid;
+    @ColumnInfo(name = "title")
     String title;
+    @ColumnInfo(name = "link")
     String link;
+    @ColumnInfo(name = "image")
     String image;
+    @ColumnInfo(name = "author")
     String author;
+    @ColumnInfo(name = "publisher")
     String publisher;
+    @ColumnInfo(name = "pubdate")
     String pubdate;
+    @ColumnInfo(name = "description")
     String description;
 
     public BookInfo(String title, String link, String image, String author, String publisher, String pubdate, String description) {
@@ -78,5 +93,17 @@ public class BookInfo implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "uid=" + uid +
+                        ", title='" + title + '\'' +
+//                        ", title='" + link + '\'' +
+//                        ", title='" + image + '\'' +
+//                        ", title='" + author + '\'' +
+//                        ", title='" + title + '\'' +
+                        '}';
     }
 }

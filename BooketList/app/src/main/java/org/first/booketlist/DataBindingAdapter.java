@@ -13,8 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableField;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -23,6 +25,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.navigation.NavigationView;
 
+import org.first.booketlist.db.AppDatabase;
 import org.first.booketlist.model.BookInfo;
 import org.first.booketlist.ui.ViewDetailFragment;
 
@@ -75,10 +78,32 @@ public class DataBindingAdapter {
             }
         });
     }
+
     @BindingAdapter("linkopen")
-    public static void linkOpen(ImageButton imageButton, String link){
-        AppCompatActivity activity = (AppCompatActivity) imageButton.getContext();
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-        activity.startActivity(intent);
+    public static void linkOpen(ImageButton imageButton, String link) {
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) imageButton.getContext();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                activity.startActivity(intent);
+            }
+        });
+
+    }
+
+    @BindingAdapter("insertDB")
+    public static void insertDB(ImageButton imageButton, ObservableField<BookInfo> bookInfoObservableField) {
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppDatabase db = Room.databaseBuilder(imageButton.getContext(), AppDatabase.class, "bookinfo-db")
+                        .allowMainThreadQueries()
+                        .build();
+                db.bookInfoDao().insert(bookInfoObservableField.get());
+                Log.e("DBDBD", db.bookInfoDao().getAll().toString());
+
+            }
+        });
     }
 }
