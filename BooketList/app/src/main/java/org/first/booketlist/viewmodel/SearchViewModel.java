@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.first.booketlist.model.BookInfo;
+import org.first.booketlist.network.BookService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,12 +24,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchViewModel extends ViewModel {
 
@@ -146,17 +154,22 @@ public class SearchViewModel extends ViewModel {
         }
     }
     private JsonArray getDataFromNaverAPI(){
+
         String clientId = "OAVpqgXpExdFQglBCJFc";
         String clientSecret = "KTRwVjuTXS";
 
         String text = editTextInput.get().toString();
+
+
+
+
         Log.e("text", text);
         try {
             text = URLEncoder.encode(text, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패", e);
         }
-        String apiURL = "https://openapi.naver.com/v1/search/book?query=" + text + "&display=20";
+        String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + text + "&display=20";
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);

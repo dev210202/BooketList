@@ -7,13 +7,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.first.booketlist.R;
-import org.first.booketlist.RecyclerAdapter;
+import org.first.booketlist.adapter.RecyclerAdapter;
 import org.first.booketlist.viewmodel.SearchViewModel;
 import org.first.booketlist.databinding.FragmentSearchBinding;
 

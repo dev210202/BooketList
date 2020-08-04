@@ -35,22 +35,10 @@ public class ViewDetailFragment extends Fragment {
         viewModel.book.set(BookData);
 
         binding.setBook(viewModel.book);
-//        // setArguments();
-//
-//        Glide.with(this).load(image).into(binding.imageView);
-//        binding.titleTextview.setText(title);
         View view = binding.getRoot();
         return view;
     }
 
-//    public void setArguments(){
-//        image = getArguments().getString("image");
-//        title = getArguments().getString("title");
-//        author = getArguments().getString("author");
-//        publisher = getArguments().getString("publisher");
-//        pubdate = getArguments().getString("pubdate");
-//        description = getArguments().getString("description");
-//    }
 
 
 }

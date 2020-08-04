@@ -1,4 +1,4 @@
-package org.first.booketlist;
+package org.first.booketlist.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
