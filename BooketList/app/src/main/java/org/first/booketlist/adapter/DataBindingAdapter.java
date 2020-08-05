@@ -97,9 +97,9 @@ public class DataBindingAdapter {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppDatabase db = Room.databaseBuilder(imageButton.getContext(), AppDatabase.class, "bookinfo-db")
-                        .allowMainThreadQueries()
-                        .build();
+
+                AppCompatActivity activity = (AppCompatActivity) imageButton.getContext();
+                AppDatabase db = AppDatabase.getDatabase(activity.getApplication());
                 db.bookInfoDao().insert(bookInfoObservableField.get());
                 Log.e("DBDBD", db.bookInfoDao().getAll().toString());
 

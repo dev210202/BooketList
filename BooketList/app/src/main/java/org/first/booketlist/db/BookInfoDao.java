@@ -1,6 +1,7 @@
 package org.first.booketlist.db;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -14,5 +15,8 @@ public interface BookInfoDao {
 
     @Insert
     void insert(BookInfo bookInfo);
+
+    @Delete
+    void delete(BookInfo bookInfo);
 
 }
