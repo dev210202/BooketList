@@ -6,8 +6,8 @@
 
 ### Using Skills
 #### AAC
-DataBinding(2 way Binding)
-Room
+DataBinding(2 way Binding)  
+Room  
 #### MVVM
 #### Library
 Glide
